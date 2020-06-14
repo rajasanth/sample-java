@@ -7,7 +7,7 @@ node {
         sh "$mvn_home/bin/mvn clean install"
     }
     stage ('Publish') {
-        docker.withRegistry('https://hub.docker.com', 'docker-credentials') {
+        docker.withRegistry('', 'docker-credentials') {
 
         def customImage = docker.build("rajaguru948/hello-world:latest")
 
