@@ -2,9 +2,14 @@ node {
     stage ('Checkout scm') {
         checkout scm
     }
+    try {
     stage ('Build') {
         def mvn_home = tool 'maven'
         sh "$mvn_home/bin/mvn clean install"
+    }
+    } finally {
+        println "Publishing Jmeter results"
+        step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/*.xml'])
     }
     stage ('Publish') {
         docker.withRegistry('', 'docker-credentials') {
@@ -13,9 +18,6 @@ node {
 
         /* Push the container to the custom Registry */
         customImage.push()
-    }
-        //sh 'docker build -t java-image .'
-        //sh 'docker tag java-image rajaguru948/hello-world:latest'
-        //sh 'docker push rajaguru948/hello-world:latest'
+     }
     }
 }
