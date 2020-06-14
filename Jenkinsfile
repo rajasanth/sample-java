@@ -21,7 +21,7 @@ node {
      }
     }
     stage ('Deploy') {
-        sh 'aws ecs update-service --cluster  aws-fargate-raja-test --service hello-world-demo --force-new-deployment --region us-east-1
+        sh '''aws ecs update-service --cluster aws-fargate-raja-test --service hello-world-demo --force-new-deployment --region us-east-1'''
 '
     }
 }
