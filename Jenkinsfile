@@ -1,11 +1,21 @@
 node {
     def mvn_home = tool 'maven'
+    def server = Artifactory.server 'artifactory-server'
+    def uploadSpec = """{
+  "files": [
+    {
+      "pattern": "target/*.jar",
+      "target": "libs-release/"
+    }
+ ]
+}"""
     stage ('Checkout scm') {
         checkout scm
     }
     try {
     stage ('Build') {
         sh "$mvn_home/bin/mvn clean install"
+	server.upload spec: uploadSpec
     }
     } finally {
         println "Publishing Jmeter results"
