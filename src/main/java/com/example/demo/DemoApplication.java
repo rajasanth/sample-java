@@ -16,6 +16,6 @@ public class DemoApplication {
 
 	@RequestMapping(value = "/")
 	public String config() {
-		return "Hello Test!!!";
+		return "Welcome for the demo!!!";
 	}
 }
