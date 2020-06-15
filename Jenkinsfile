@@ -1,16 +1,25 @@
 node {
+    def mvn_home = tool 'maven'
     stage ('Checkout scm') {
         checkout scm
     }
     try {
     stage ('Build') {
-        def mvn_home = tool 'maven'
         sh "$mvn_home/bin/mvn clean install"
     }
     } finally {
         println "Publishing Jmeter results"
         step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/*.xml'])
     }
+    stage ('Enable Sonar') {
+		withSonarQubeEnv(installationName: "sonar-check") {
+			sh "$mvn_home/bin/mvn sonar:sonar"
+		}
+	}
+    stage ('owasp') {
+	    dependencyCheck additionalArguments: '', odcInstallation: 'owasp'
+	    dependencyCheckPublisher pattern: ''
+	}
     stage ('Publish') {
         docker.withRegistry('', 'docker-credentials') {
 
