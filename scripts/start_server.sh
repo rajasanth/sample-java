@@ -1,4 +1,4 @@
 
 #!/bin/bash
 #service tomcat8 start
-java -jar /home/ec2-user/demo-0.0.1-SNAPSHOT.jar
+java -jar /home/ec2-user/demo-0.0.1-SNAPSHOT.jar/demo-0.0.1-SNAPSHOT.jar
