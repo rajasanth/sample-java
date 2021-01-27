@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: target/demo-0.0.1-SNAPSHOT.jar
-    destination: /home/ec2/demo.jar
+    destination: ~/demo-0.0.1-SNAPSHOT.jar
 hooks:
   BeforeInstall:
     - location: scripts/before_install.sh
